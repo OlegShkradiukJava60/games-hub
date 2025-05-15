@@ -1,10 +1,15 @@
+import type { ReactNode } from "react"
+
 export interface Game {
-    id: number;
-    name: string;
-    background_image: string;
+  released: ReactNode
+  description: string
+  id: number
+  name: string
+  metacritic: number
+  background_image: string
+}
+export interface FetchGamesResponse {
+  count: number;
+  results: Game[];
 }
 
-export interface FetchGameResponse {
-    count: number;
-    results: Game[];
-}
