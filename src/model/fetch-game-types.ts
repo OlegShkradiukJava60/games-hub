@@ -1,8 +1,7 @@
-import { NumberInputControlProps } from "@chakra-ui/react";
 
 export interface Platform {
     platform: {
-        name: number
+        slug: string
     }
     
 }
@@ -12,8 +11,4 @@ export interface Game {
     background_image: string,
     metacritic: number,
     platforms: Platform[]
-}
-export interface FetchGamesResponse {
-    count: number;
-    results: Game[];
 }

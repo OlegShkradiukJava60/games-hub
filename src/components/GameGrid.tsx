@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import api from '../services/api-client'
-import { Game, FetchGamesResponse } from '../model/fetch-game-types'
+
 import { SimpleGrid, Text } from '@chakra-ui/react'
 import GameCard from './GameCard'
-import { AxiosError } from 'axios'
+import useGame from '../hooks/useGame';
 
 const GameGrid = () => {
-  const [games, setGames] = useState<Game[]>()
-  const [error, setError] = useState<string>("");
-  useEffect(() => {
-    api.get<FetchGamesResponse>("/games")
-      .then(res => setGames(res.data.results))
-      .catch((e: AxiosError) => {
-        setError(e.message)
-      })
-  }, [])
 
+  const { error, data } = useGame();
+  const games = data;
 
 
   return (
