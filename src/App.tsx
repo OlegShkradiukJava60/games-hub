@@ -1,11 +1,12 @@
 
 import './App.css'
-import { Grid, GridItem, Stack } from '@chakra-ui/react'
+import {  Grid, GridItem, Stack} from '@chakra-ui/react'
+import { ColorModeButton } from './components/ui/color-mode'
 import Nav from './components/Nav'
 import GameGrid from './components/GameGrid'
 
 function App() {
-
+ 
 
   return (
     <Grid templateAreas={{
@@ -15,14 +16,10 @@ function App() {
       <GridItem area="nav"><Nav></Nav>
       </GridItem>
       <Stack hideBelow="md">
-        <GridItem p="2"
-          area="aside"
-          bg="gold">
-          games:</GridItem>
+        <GridItem area="aside" bg="gold">ASIDEASIDE</GridItem>
       </Stack>
-      <GridItem
-        area="main" >
-        <GameGrid></GameGrid>
+      <GridItem area="main" >
+          <GameGrid></GameGrid>
       </GridItem>
     </Grid>
   )
