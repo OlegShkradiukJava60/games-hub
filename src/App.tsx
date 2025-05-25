@@ -1,13 +1,13 @@
 
 import './App.css'
-import { Grid, GridItem, Stack } from '@chakra-ui/react'
-import { ColorModeButton } from './components/ui/color-mode'
+import { Grid, GridItem, HStack, Stack } from '@chakra-ui/react'
 import Nav from './components/Nav'
 import GameGrid from './components/GameGrid'
 import GenreList from './components/GenreList'
+import { useState } from 'react'
 
 function App() {
-
+  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
 
   return (
     <Grid templateAreas={{
@@ -17,15 +17,17 @@ function App() {
       <GridItem area="nav"><Nav></Nav>
       </GridItem>
       <Stack hideBelow="md">
-        <GridItem area="aside" >
-          <GenreList></GenreList>
+        <GridItem area="aside" paddingX="5" >
+          <GenreList selectedGenre={selectedGenre} onSelectGenre={(selectedGenre) => setSelectedGenre(selectedGenre)}></GenreList>
         </GridItem>
       </Stack>
       <GridItem area="main" >
-        <GameGrid></GameGrid>
+        <GameGrid selectedGenre={selectedGenre}></GameGrid>
       </GridItem>
     </Grid>
   )
+
+
 }
 
 export default App

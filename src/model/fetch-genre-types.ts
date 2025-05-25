@@ -1,8 +1,9 @@
 
 
 export interface Genre {
-    image_background: string | undefined;
     id: number;
     name: string;
-
+    image_background: string;
+    slug: string;
+    
 }
