@@ -1,46 +1,31 @@
 import { HStack } from '@chakra-ui/react';
-import { FC, ReactNode } from 'react'
-import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { type FC, useMemo } from 'react'
+import { FaStar, FaRegStar } from 'react-icons/fa';
+import { FaStarHalfStroke } from 'react-icons/fa6'
 interface Props {
   starsNumber?: number;
   maxRate?: number;
   rate: number
 }
-function getStars(stars: number, isFilled: boolean): ReactNode[] {
-  return Array.from({ length: stars }, () => isFilled ? <FaStar key={getUniqueKey()} /> :
-    <FaRegStar key={getUniqueKey()} />)
-}
-function getUniqueKey(): number {
-  return Math.random();
-}
+
 const Rater: FC<Props> = ({ starsNumber = 5, maxRate = 5, rate }) => {
+  const stars = useMemo(() => {
+    const normalisedRate = rate * starsNumber / maxRate;
+    const decimalPart = normalisedRate % 1;
+    const addFullStar = decimalPart >= 0.75 ? 1 : 0;
+    const numFilledStars = Math.floor(normalisedRate) + addFullStar;
+    const addHalfFilledStar = (0.25 <= decimalPart && !addFullStar) ? 1 : 0;
+    const numEmptyStars = starsNumber - numFilledStars - addHalfFilledStar;
 
-  const { filledStars, halfFilledStar, emptyStars } = getStarsDistribution();
-  function getStarsDistribution(): {
-    filledStars: number;
-    halfFilledStar: boolean;
-    emptyStars: number;
-  } {
-    const normStarsNumber = (starsNumber * rate) / maxRate;
-    let totalStars = starsNumber;
-    let filledStars = Math.trunc(normStarsNumber);
-    let halfFilledStar = false;
-    const fractionalPart = normStarsNumber - filledStars;
-    if (fractionalPart > 0.75) {
-      filledStars++;
-    } else if (fractionalPart > 0.25) {
-      halfFilledStar = true;
-      totalStars--;
-
-    }
-    const emptyStars = totalStars - filledStars;
-    return { filledStars, halfFilledStar, emptyStars };
-  }
-  return <HStack>
-    {getStars(filledStars, true)}
-    {halfFilledStar && <FaStarHalfAlt></FaStarHalfAlt>}
-    {getStars(emptyStars, false)}
-  </HStack>;
-};
+    return [
+      Array.from({ length: numFilledStars }, (_, i) => <FaStar key={`fullStar-${i}`} />),
+      Array.from({ length: addHalfFilledStar }, (_, i) => <FaStarHalfStroke key={`halfStar-${i}`} />),
+      Array.from({ length: numEmptyStars }, (_, i) => <FaRegStar key={`emptyStar-${i}`} />)
+    ];
+  }, [starsNumber, maxRate, rate]);
+  return (
+    <HStack>{stars}</HStack>
+  )
+}
 
 export default Rater
