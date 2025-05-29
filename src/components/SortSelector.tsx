@@ -18,9 +18,8 @@ const SortSelector: FC<Props> = ({ onSelectOrdering, selectedOrdering }) => {
           <Button
             variant="outline"
             size="sm"
-            borderWidth={0}
-            onClick={() => setIsOpen(!isOpen)}
             marginBottom={3}
+            onClick={() => setIsOpen(!isOpen)}
           >
             {` Order by ${selectedOrdering?.displayName || "Relevance"}`}
             {isOpen ? (

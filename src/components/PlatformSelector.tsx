@@ -6,40 +6,55 @@ import ParentPlatform from '../model/ParentPlatform';
 import MotionComponent from './MotionComponent';
 
 interface Props {
-    onSelectPlatform: (selectedPlatform: ParentPlatform) => void;
-    selectedPlatform: ParentPlatform | null
+  onSelectPlatform: (selectedPlatform: ParentPlatform) => void;
+  selectedPlatform: ParentPlatform | null
 }
-const duration=0.7;
-const PlatformSelector: FC<Props> = ({onSelectPlatform, selectedPlatform}) => {
-    const {error, data:platforms, isLoading} = usePlatform();
-   const [isOpen, setIsOpen] =  useState<boolean>(false)
+const duration = 0.7;
+const PlatformSelector: FC<Props> = ({ onSelectPlatform, selectedPlatform }) => {
+  const { error, data: platforms, isLoading } = usePlatform();
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   return (
     <>
-    
-        {isLoading && <Spinner></Spinner>}
-        {!error && <Menu.Root onExitComplete={() => setIsOpen(false)}>
-      <Menu.Trigger asChild>
-        <Button variant="outline" size="sm" marginBottom={3} onClick={() => setIsOpen(!isOpen)}>
-         { selectedPlatform?.name || "Platforms"}
-          {isOpen ? <MotionComponent duration={duration}>
-            <FaChevronUp></FaChevronUp>
-          </MotionComponent> :<FaChevronDown></FaChevronDown>}
-        </Button>
-      </Menu.Trigger>
-      <Portal>
-        <Menu.Positioner>
-          <MotionComponent duration={duration}>
-            <Menu.Content>
-            
-              {platforms.map(p => <Menu.Item value={p.id}
-               onClick={() => {onSelectPlatform(p); setIsOpen(false)}}>{p.name}</Menu.Item>)}
-            </Menu.Content>
-          </MotionComponent>
-        </Menu.Positioner>
-      </Portal>
-    </Menu.Root>}
+
+      {isLoading && <Spinner></Spinner>}
+      {!error && <Menu.Root onExitComplete={() => setIsOpen(false)}>
+        <Menu.Trigger asChild>
+          <Button variant="outline"
+            size="sm"
+            marginBottom={3}
+            onClick={() => setIsOpen(!isOpen)}>
+            {selectedPlatform?.name || "Platforms"}
+            {isOpen ? <MotionComponent duration={duration}>
+              <FaChevronUp></FaChevronUp>
+            </MotionComponent> : <FaChevronDown></FaChevronDown>}
+          </Button>
+        </Menu.Trigger>
+        <Portal>
+          <Menu.Positioner>
+            <MotionComponent duration={duration}>
+              <Menu.Content>
+                <Menu.Item
+                  value="all"
+                  onClick={() => {
+                    onSelectPlatform(null as any);
+                    setIsOpen(false);
+                  }}
+                >
+                  All Platforms
+                </Menu.Item>
+                {platforms.map(p => <Menu.Item value={p.id}
+                  onClick={() => {
+                    onSelectPlatform(p);
+                    setIsOpen(false)
+                  }}>
+                  {p.name}</Menu.Item>)}
+              </Menu.Content>
+            </MotionComponent>
+          </Menu.Positioner>
+        </Portal>
+      </Menu.Root>}
     </>
-    
+
   )
 }
 

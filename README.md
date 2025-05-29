@@ -1,9 +1,6 @@
-# HW #39 Definition
-## Refactoring
-### Instead of separated variables like selectedPlatform, selectedGenre,etc., introduce interface GameQuery. Each field of the interface will reflect a separated variable
-#### Update of the components in accordance with the mentioned above item
-## Building SortSelector component
-### Allows defining ordering by relevance in accordance with the API documentation from https://api.rawg.io/docs/#operation/games_list 
-### Similar to the PlatformSelector component having built at the CW #39
-### The menu items should be taken from some configuration presenting array of objects like
-[{"value":"-rating", "displayedName":"Popularity"},{"value":"-metacritic", "displayedName":"Critic Score"},... ]
+HW #40 Solution
+Building GenreSelector component similar to other selectors (PlatformSelector, SortSelector)
+Menu items should be genre names with no images
+Provides the same functionality like GenreList but look & feel like in other selectors
+Should be shown ONLY on mobile landscape layout (on portrait no place, on tablets+ there is aside GenreList)
+Providing possibility to select "all genres" and "all platforms" in GenreList, PlatformSelector and GenreSelector components after selecting some genre/platform

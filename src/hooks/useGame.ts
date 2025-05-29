@@ -2,7 +2,7 @@ import { Game } from "../model/fetch-game-types";
 import GameQuery from "../model/GameQuery";
 import useData from "./useData";
 
-export default function useGame(gameQuery: GameQuery): { data: Game[], isLoading: boolean, error: string} {
+export default function useGame(gameQuery: GameQuery): { data: Game[], isLoading: boolean, error: string } {
     return useData<Game>("/games",
         {
             params: {
