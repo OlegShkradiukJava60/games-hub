@@ -19,6 +19,7 @@ const SortSelector: FC<Props> = ({ onSelectOrdering, selectedOrdering }) => {
             variant="outline"
             size="sm"
             marginBottom={3}
+            marginLeft={1}
             onClick={() => setIsOpen(!isOpen)}
           >
             {` Order by ${selectedOrdering?.displayName || "Relevance"}`}

@@ -6,7 +6,8 @@ export default function useGame(gameQuery: GameQuery): { data: Game[], isLoading
     return useData<Game>("/games",
         {
             params: {
-                genres: gameQuery.genreName, parent_platforms: gameQuery.platform?.id,
+                genres: gameQuery.genreName,
+                parent_platforms: gameQuery.platform?.id,
                 ordering: gameQuery.ordering?.value,
                 search: gameQuery.searchText
             }
