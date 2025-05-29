@@ -1,8 +1,9 @@
-import { Genre } from "./fetch-genre-types";
+import { SortOption } from "../components/SortSelector";
 import ParentPlatform from "./ParentPlatform";
 
-export interface GameQuery {
-  selectedGenre: Genre | null;
-  selectedPlatform: ParentPlatform | null;
-  sortOrder: string | null;
+export default interface GameQuery {
+    genreName: string | null;
+    platform: ParentPlatform | null;
+    ordering: SortOption | null
+    searchText: string
 }

@@ -3,7 +3,7 @@ export interface Platform {
     platform: {
         slug: string
     }
-
+    
 }
 export interface Game {
     id: number;

@@ -1,38 +1,45 @@
 import { Menu, Button, Portal, Spinner } from '@chakra-ui/react'
-import { type FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
-import usePlatform from '../hooks/usePlatform.ts';
-import type GameQuery from '../model/gameQuery.ts';
+import usePlatform from '../hooks/usePlatform';
+import ParentPlatform from '../model/ParentPlatform';
+import MotionComponent from './MotionComponent';
 
 interface Props {
-  setGameQuery: (gameQuery: GameQuery) => void;
-  gameQuery: GameQuery;
+    onSelectPlatform: (selectedPlatform: ParentPlatform) => void;
+    selectedPlatform: ParentPlatform | null
 }
-const PlatformSelector: FC<Props> = ({ setGameQuery, gameQuery }) => {
-  const { error, data: platforms, isLoading } = usePlatform();
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+const duration=0.7;
+const PlatformSelector: FC<Props> = ({onSelectPlatform, selectedPlatform}) => {
+    const {error, data:platforms, isLoading} = usePlatform();
+   const [isOpen, setIsOpen] =  useState<boolean>(false)
   return (
     <>
-
-      {isLoading && <Spinner></Spinner>}
-      {!error && <Menu.Root >
-        <Menu.Trigger asChild>
-          <Button variant="outline" size="sm" marginBottom={3} onClick={() => setIsOpen(!isOpen)}>
-            {gameQuery.platform?.name || "Platforms"}
-            {isOpen ? <FaChevronUp></FaChevronUp> : <FaChevronDown></FaChevronDown>}
-          </Button>
-        </Menu.Trigger>
-        <Portal>
-          <Menu.Positioner>
-            <Menu.Content _hover={{ cursor: "pointer" }}>
-              {platforms.map(p => <Menu.Item _hover={{ cursor: "pointer", bg: "blue.300" }} key={p.name} value={p.id}
-                onClick={() => { setGameQuery({ ...gameQuery, platform: p }); setIsOpen(false) }}>{p.name}</Menu.Item>)}
+    
+        {isLoading && <Spinner></Spinner>}
+        {!error && <Menu.Root onExitComplete={() => setIsOpen(false)}>
+      <Menu.Trigger asChild>
+        <Button variant="outline" size="sm" marginBottom={3} onClick={() => setIsOpen(!isOpen)}>
+         { selectedPlatform?.name || "Platforms"}
+          {isOpen ? <MotionComponent duration={duration}>
+            <FaChevronUp></FaChevronUp>
+          </MotionComponent> :<FaChevronDown></FaChevronDown>}
+        </Button>
+      </Menu.Trigger>
+      <Portal>
+        <Menu.Positioner>
+          <MotionComponent duration={duration}>
+            <Menu.Content>
+            
+              {platforms.map(p => <Menu.Item value={p.id}
+               onClick={() => {onSelectPlatform(p); setIsOpen(false)}}>{p.name}</Menu.Item>)}
             </Menu.Content>
-          </Menu.Positioner>
-        </Portal>
-      </Menu.Root>}
+          </MotionComponent>
+        </Menu.Positioner>
+      </Portal>
+    </Menu.Root>}
     </>
-
+    
   )
 }
 

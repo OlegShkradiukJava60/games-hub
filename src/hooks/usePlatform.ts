@@ -1,4 +1,4 @@
-import type ParentPlatform from "../model/ParentPlatform";
+import ParentPlatform from "../model/ParentPlatform";
 import useData from "./useData";
 
 export default function usePlatform() {
