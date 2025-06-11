@@ -1,6 +1,6 @@
-import ParentPlatform from "../model/ParentPlatform";
+import Platform from "../model/ParentPlatform";
 import useData from "./useData";
 
-export default function usePlatform() {
-    return useData<ParentPlatform>("/platforms/lists/parents")
+export default function usePlatforms() {
+  return useData<Platform>("/platforms/lists/parents");
 }

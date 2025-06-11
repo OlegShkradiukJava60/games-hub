@@ -1,90 +1,54 @@
-import {
-  Menu,
-  Button,
-  Portal,
-  Spinner,
-  useBreakpointValue,
-} from "@chakra-ui/react";
-import { FC, useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import useGenre from "../hooks/useGenre";
-import MotionComponent from "./MotionComponent";
+import { Menu, Button, Portal, Spinner } from '@chakra-ui/react'
+import { FC, useState } from 'react'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import MotionComponent from './MotionComponent';
+import useGenre from '../hooks/useGenre';
+import useGameQueryStore from '../../state-management/store';
 
-interface Props {
-  selectedGenre: string | null;
-  onSelectGenre: (genreSlug: string | null) => void;
-}
 
 const duration = 0.7;
-
-const GenreSelector: FC<Props> = ({ selectedGenre, onSelectGenre }) => {
-  const { data: genres, isLoading, error } = useGenre();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const showOnThisBreakpoint = useBreakpointValue({ base: true, md: false });
-  if (!showOnThisBreakpoint) return null;
-
-  const selectedGenreName =
-    selectedGenre === null
-      ? "All Genres"
-      : genres.find((g) => g.slug === selectedGenre)?.name || "Genres";
-
+const GenreSelector: FC = () => {
+  const { error, data: genres, isLoading } = useGenre();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const selectedGenre = useGameQueryStore(s => s.genre);
+  const onSelectGenre = useGameQueryStore(s => s.setGenre);
+  function getGenreName(genreSlug: string | null): string | null {
+    let res: string | null = null;
+    if (genreSlug) {
+      const genre = genres?.find(g => genreSlug === g.slug);
+      genre && (res = genre.name)
+    }
+    return res;
+  }
   return (
     <>
-      {isLoading && <Spinner />}
-      {!error && (
-        <Menu.Root onExitComplete={() => setIsOpen(false)}>
-          <Menu.Trigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              borderWidth={0}
-              onClick={() => setIsOpen(!isOpen)}
-              marginBottom={3}
-            >
-              {selectedGenreName}
-              {isOpen ? (
-                <MotionComponent duration={duration}>
-                  <FaChevronUp />
-                </MotionComponent>
-              ) : (
-                <FaChevronDown />
-              )}
-            </Button>
-          </Menu.Trigger>
-          <Portal>
-            <Menu.Positioner>
-              <MotionComponent duration={duration}>
-                <Menu.Content>
-                  <Menu.Item
-                    value="all"
-                    onClick={() => {
-                      onSelectGenre(null);
-                      setIsOpen(false);
-                    }}
-                  >
-                    All Genres
-                  </Menu.Item>
-                  {genres.map((genre) => (
-                    <Menu.Item
-                      key={genre.id}
-                      value={genre.slug}
-                      onClick={() => {
-                        onSelectGenre(genre.slug);
-                        setIsOpen(false);
-                      }}
-                    >
-                      {genre.name}
-                    </Menu.Item>
-                  ))}
-                </Menu.Content>
-              </MotionComponent>
-            </Menu.Positioner>
-          </Portal>
-        </Menu.Root>
-      )}
-    </>
-  );
-};
 
-export default GenreSelector;
+      {isLoading && <Spinner></Spinner>}
+      {!error && <Menu.Root onExitComplete={() => setIsOpen(false)}>
+        <Menu.Trigger asChild>
+          <Button variant="outline" size="sm" marginBottom={3} onClick={() => setIsOpen(!isOpen)}>
+            {getGenreName(selectedGenre) || "Genres"}
+            {isOpen ? <MotionComponent duration={duration}>
+              <FaChevronUp></FaChevronUp>
+            </MotionComponent> : <FaChevronDown></FaChevronDown>}
+          </Button>
+        </Menu.Trigger>
+        <Portal>
+          <Menu.Positioner>
+            <MotionComponent duration={duration}>
+              <Menu.Content>
+                <Menu.Item key={"genre"} value={""}
+                  onClick={() => { onSelectGenre(null); setIsOpen(false) }}>All genres</Menu.Item>
+                {genres?.map(g => <Menu.Item key={g.slug} value={g.slug}
+                  onClick={() => { onSelectGenre(g.slug); setIsOpen(false) }}>{g.name}</Menu.Item>)}
+              </Menu.Content>
+            </MotionComponent>
+          </Menu.Positioner>
+        </Portal>
+      </Menu.Root>}
+    </>
+
+  )
+}
+
+export default GenreSelector

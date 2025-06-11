@@ -23,7 +23,7 @@ const GameCard: React.FC<Props> = ({ game }) => {
       }}
       overflow="hidden"
     >
-     <Image
+      <Image
         height={"100%"}
         objectFit={"cover"}
         src={game.background_image || no_image}
@@ -31,14 +31,14 @@ const GameCard: React.FC<Props> = ({ game }) => {
       />
       <Card.Body gap="2">
         <Card.Title overflow={"hidden"}
-        textWrap={"nowrap"} textOverflow={"ellipsis"}>{game.name}</Card.Title>
+          textWrap={"nowrap"} textOverflow={"ellipsis"}>{game.name}</Card.Title>
         <Card.Footer>
           <VStack>
             <HStack justifyContent={"space-between"}>
               <Text>
                 {game.parent_platforms?.map((p) => p.platform.slug).join("; ")}
               </Text>
-              {game.metacritic &&<Badge
+              {game.metacritic && <Badge
                 {...getColors(game.metacritic)}
                 fontSize={"0.5rem"}
                 borderRadius={20}

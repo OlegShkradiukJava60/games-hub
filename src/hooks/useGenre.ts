@@ -1,6 +1,6 @@
 import { Genre } from "../model/fetch-genre-types";
 import useData from "./useData";
 
-export default function useGenre(): { data: Genre[], error: string, isLoading: boolean } {
-    return useData<Genre>("/genres")
+export default function useGenres() {
+  return useData<Genre>("/genres");
 }
