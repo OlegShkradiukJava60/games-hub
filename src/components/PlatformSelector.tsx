@@ -4,7 +4,7 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import usePlatform from '../hooks/usePlatform';
 import ParentPlatform from '../model/ParentPlatform';
 import MotionComponent from './MotionComponent';
-import useGameQueryStore from '../../state-management/store';
+import useGameQueryStore from '../state-management/store';
 
 
 const duration = 0.7;

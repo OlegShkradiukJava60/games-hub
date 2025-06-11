@@ -3,7 +3,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { FC, useState } from "react";
 import sortOptions from "../../config/sort-config.json";
 import MotionComponent from "./MotionComponent";
-import useGameQueryStore from "../../state-management/store";
+import useGameQueryStore from "../state-management/store";
 export type SortOption = (typeof sortOptions)[0];
 
 const duration = 0.7;

@@ -1,15 +1,15 @@
 import { create } from "zustand";
-import ParentPlatform from "../src/model/ParentPlatform";
-import { SortOption } from "../src/components/SortSelector";
+import ParentPlatform from "../model/ParentPlatform";
+import { SortOption } from "../components/SortSelector";
 interface GameQueryStore {
   search: string | null;
   genre: string | null;
   platform: ParentPlatform | null;
   ordering: SortOption | null;
-  setSearch: (search: string|null) => void;
-  setGenre: (genre: string|null) => void;
-  setPlatform: (platform: ParentPlatform|null) => void;
-  setOrdering: (ordering: SortOption|null) => void;
+  setSearch: (search: string | null) => void;
+  setGenre: (genre: string | null) => void;
+  setPlatform: (platform: ParentPlatform | null) => void;
+  setOrdering: (ordering: SortOption | null) => void;
 }
 const useGameQueryStore = create<GameQueryStore>((set) => ({
   search: null,
@@ -17,10 +17,10 @@ const useGameQueryStore = create<GameQueryStore>((set) => ({
   platform: null,
   ordering: null,
   setSearch: (search) =>
-    set(() => ({search, genre: null})),
+    set(() => ({ search, genre: null })),
   setGenre: (genre) =>
     set((state) => {
-       return state.genre === genre ? state : {genre, search: null}
+      return state.genre === genre ? state : { genre, search: null }
     }),
   setOrdering: (ordering) =>
     set((state) => {

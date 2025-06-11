@@ -5,12 +5,12 @@ import SearchBar from './SearchBar'
 import { FC } from 'react'
 
 const Nav: FC = () => {
-
+  
   return (
     <HStack justifyContent="space-between">
-      <Image src={logo} boxSize={"10"} />
-      <SearchBar />
-      <ColorModeButton />
+       <Image src={logo} boxSize={"10"}/>
+       <SearchBar />
+       <ColorModeButton/>
     </HStack>
   )
 }
